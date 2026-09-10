@@ -574,7 +574,7 @@
           </label>
           <div class="input-wrap">
             <i data-lucide="user" class="input-icon"></i>
-            <input type="text" id="username" class="form-input" placeholder="admin" autocomplete="off" required>
+            <input type="text" id="username" class="form-input" placeholder="បញ្ចូល Username Admin" autocomplete="off" required>
           </div>
         </div>
 
@@ -590,33 +590,30 @@
             </button>
           </div>
           <p class="hint-text" id="username-hint">
-            <i data-lucide="info"></i>
-            <span>ប្រើ username: <strong>admin</strong> / password: <strong>admin123</strong></span>
+            <i data-lucide="shield-check"></i>
+            <span>សូមបញ្ចូលគណនីគ្រប់គ្រង (Admin Portal)</span>
           </p>
         </div>
 
         <button type="submit" class="btn-login btn-login-admin" id="btn-submit">
-          <i data-lucide="log-in"></i>
+          <i data-lucide="shield-check"></i>
           <span>ចូលប្រើប្រាស់ (Admin)</span>
         </button>
       </form>
 
-      <!-- Demo credentials -->
+      <!-- Student login helper info (Admin credentials are kept private) -->
       <div class="demo-creds">
-        <div class="demo-creds-title">🔑 Demo Credentials</div>
-        <div class="cred-row">
-          <span class="cred-badge cred-admin">Admin</span>
-          <span class="cred-label">user:</span>
-          <span class="cred-val">admin</span>
-          <span class="cred-label">pw:</span>
-          <span class="cred-val">admin123</span>
-        </div>
+        <div class="demo-creds-title">ℹ️ ព័ត៌មានជំនួយការចូលប្រើប្រាស់</div>
         <div class="cred-row">
           <span class="cred-badge cred-user">Student</span>
-          <span class="cred-label">user:</span>
-          <span class="cred-val">DUC2024-0417</span>
-          <span class="cred-label">pw:</span>
-          <span class="cred-val">duc2024</span>
+          <span style="font-size:0.8rem;color:var(--text-secondary);">
+            ចូលដោយប្រើ <strong>ឈ្មោះផ្ទាល់ខ្លួន</strong> (ខ្មែរ/ឡាតាំង) ឬ <strong>Student ID</strong>
+          </span>
+        </div>
+        <div class="cred-row" style="margin-top:6px;gap:6px;">
+          <span class="cred-label" style="font-size:0.75rem;">Password លំនាំដើម:</span>
+          <span class="cred-val" style="font-size:0.78rem;">duc2024</span>
+          <span class="cred-label" style="font-size:0.75rem;">ឬ អត្តលេខផ្ទាល់ខ្លួន</span>
         </div>
       </div>
     </div>
@@ -659,20 +656,20 @@
         tabAdmin.className = 'role-tab active-admin';
         tabUser.className = 'role-tab';
         usernameLabel.textContent = 'Username (Admin)';
-        usernameHint.innerHTML = '<i data-lucide="info"></i><span>ប្រើ username: <strong>admin</strong> / password: <strong>admin123</strong></span>';
+        usernameHint.innerHTML = '<i data-lucide="shield-check"></i><span>សូមបញ្ចូលគណនីគ្រប់គ្រង (Admin Portal)</span>';
         btnSubmit.className = 'btn-login btn-login-admin';
         btnSubmit.innerHTML = '<i data-lucide="shield-check"></i><span>ចូលប្រើប្រាស់ (Admin)</span>';
-        usernameInput.placeholder = 'admin';
+        usernameInput.placeholder = 'បញ្ចូល Username Admin';
         inputs.forEach(i => i.classList.remove('admin-focus'));
         inputs.forEach(i => i.style.setProperty('--focus-color', '#f59e0b'));
       } else {
         tabAdmin.className = 'role-tab';
         tabUser.className = 'role-tab active-user';
-        usernameLabel.textContent = 'Student ID (អត្តលេខ)';
-        usernameHint.innerHTML = '<i data-lucide="info"></i><span>ប្រើ Student ID: <strong>DUC2024-0417</strong> / password: <strong>duc2024</strong></span>';
+        usernameLabel.textContent = 'ឈ្មោះ ឬ អត្តលេខនិស្សិត (Name or Student ID)';
+        usernameHint.innerHTML = '<i data-lucide="info"></i><span>អាចប្រើ <strong>ឈ្មោះផ្ទាល់ខ្លួន</strong> (ខ្មែរ/ឡាតាំង) ឬ <strong>Student ID</strong></span>';
         btnSubmit.className = 'btn-login btn-login-user';
         btnSubmit.innerHTML = '<i data-lucide="user"></i><span>ចូលប្រើប្រាស់ (Student)</span>';
-        usernameInput.placeholder = 'DUC2024-XXXX';
+        usernameInput.placeholder = 'ឧ. ម៉ុក សម្បត្តិ ឬ MOK SAMBATH ឬ DUC2024-0417';
       }
 
       document.getElementById('username').value = '';
@@ -705,24 +702,61 @@
       document.getElementById('error-msg').classList.remove('show');
     }
 
-    // Credential database
-    const credentials = {
-      admin: [
-        { username: 'admin', password: 'admin123', name: 'Administrator', role: 'admin', id: 'ADMIN-001' }
-      ],
-      user: [
-        { username: 'DUC2024-0417', password: 'duc2024', name: 'ម៉ុក សម្បត្តិ', latinName: 'MOK SAMBATH', role: 'user', id: 'DUC2024-0417', gender: 'ប្រុស', dob: '01/12/2000' },
-        { username: 'DUC2024-0021', password: 'duc2024', name: 'ក្លាន ផែន', latinName: 'KLAN PHAEN', role: 'user', id: 'DUC2024-0021', gender: 'ស្រី', dob: '05/09/2004' },
-        { username: 'DUC2024-0023', password: 'duc2024', name: 'ក្លាន លូត', latinName: 'KLAN LOUT', role: 'user', id: 'DUC2024-0023', gender: 'ប្រុស', dob: '02/10/2001' },
-      ]
-    };
+    // Official Student Roster (43 Students) + Admin Credential
+    const adminCredential = { username: 'admin', password: 'admin123', name: 'Administrator', role: 'admin', id: 'ADMIN-001' };
+
+    const studentsRoster = [
+      { id: 'DUC2024-0021', name: 'ក្លាន ផែន', latinName: 'KLAN PHAEN', gender: 'ស្រី', dob: '05/09/2004' },
+      { id: 'DUC2024-0023', name: 'ក្លាន លូត', latinName: 'KLAN LOUT', gender: 'ប្រុស', dob: '02/10/2001' },
+      { id: 'DUC2024-0024', name: 'ក្លាន ស្នាក', latinName: 'KLAN SNAK', gender: 'ប្រុស', dob: '10/09/2006' },
+      { id: 'DUC2024-0033', name: 'ខុយ ស្រីនី', latinName: 'KHOUY SREYNY', gender: 'ស្រី', dob: '14/08/2002' },
+      { id: 'DUC2024-0036', name: 'ខេង តាំងលី', latinName: 'KHENG TANGLY', gender: 'ស្រី', dob: '10/11/2003' },
+      { id: 'DUC2024-0047', name: 'គង់ ស៊ាត', latinName: 'KONG SEAT', gender: 'ប្រុស', dob: '07/12/2004' },
+      { id: 'DUC2024-0056', name: 'គឹម ស្រីពៅ', latinName: 'KIM SREYPOV', gender: 'ស្រី', dob: '03/06/2001' },
+      { id: 'DUC2024-0079', name: 'ឃុន សេងលាប', latinName: 'KHOUN SENGLEAB', gender: 'ប្រុស', dob: '17/01/2006' },
+      { id: 'DUC2024-0086', name: 'ចង់ ថុង', latinName: 'CHONG THONG', gender: 'ប្រុស', dob: '19/08/2003' },
+      { id: 'DUC2024-0092', name: 'ចាន់ ឆៃយ៉ា', latinName: 'CHAN CHHAIYA', gender: 'ប្រុស', dob: '11/11/2005' },
+      { id: 'DUC2024-0099', name: 'ចាន់ សើន', latinName: 'CHANN SEUN', gender: 'ប្រុស', dob: '11/07/2003' },
+      { id: 'DUC2024-0144', name: 'ឈួន សុខលាង', latinName: 'CHHUON SOKLEANG', gender: 'ស្រី', dob: '09/03/2005' },
+      { id: 'DUC2024-0185', name: 'ឌុច តុងហៀន', latinName: 'DUCH TONGHEAN', gender: 'ប្រុស', dob: '01/11/2003' },
+      { id: 'DUC2024-0197', name: 'ណុប ចាម', latinName: 'NOB CHAM', gender: 'ប្រុស', dob: '22/02/2004' },
+      { id: 'DUC2024-0211', name: 'តី វៃ', latinName: 'TEY VAI', gender: 'ប្រុស', dob: '04/04/2005' },
+      { id: 'DUC2024-0213', name: 'តឿន ស្រីនាង', latinName: 'TOEUN SREYNEANG', gender: 'ស្រី', dob: '03/09/2004' },
+      { id: 'DUC2024-0272', name: 'នាង រ៉ាវី', latinName: 'NEANG RAVY', gender: 'ប្រុស', dob: '15/03/2006' },
+      { id: 'DUC2024-0273', name: 'នាង សំរិទ្ធិ', latinName: 'NEANG SOMRITH', gender: 'ប្រុស', dob: '15/12/2004' },
+      { id: 'DUC2024-0305', name: 'ប៉ាត ឈាងអុី', latinName: 'PAT CHEANGEI', gender: 'ស្រី', dob: '01/01/2005' },
+      { id: 'DUC2024-0331', name: 'ប៉ៃ វុទ្ធារដ្ឋា', latinName: 'PAI VUTHAROTHA', gender: 'ប្រុស', dob: '05/10/2003' },
+      { id: 'DUC2024-0414', name: 'មិ សាវៀន', latinName: 'MI SAVIEN', gender: 'ប្រុស', dob: '02/05/2002' },
+      { id: 'DUC2024-0417', name: 'ម៉ុក សម្បត្តិ', latinName: 'MOK SAMBATH', gender: 'ប្រុស', dob: '01/12/2000' },
+      { id: 'DUC2024-0425', name: 'មៀង ស្រីម៉ុំ', latinName: 'MIECH SREY MOM', gender: 'ស្រី', dob: '25/08/2004' },
+      { id: 'DUC2024-0439', name: 'ម៉ៅ ស្រីឃៀម', latinName: 'MAO SREYKHIEM', gender: 'ស្រី', dob: '20/03/2002' },
+      { id: 'DUC2024-0457', name: 'យ៉ុន ទូច', latinName: 'YON TOUCH', gender: 'ស្រី', dob: '15/09/2003' },
+      { id: 'DUC2024-0474', name: 'យ៉ែម ដេវីត', latinName: 'YEM DEVIT', gender: 'ប្រុស', dob: '22/04/2006' },
+      { id: 'DUC2024-0476', name: 'យ៉ែម ស៊ីនូន', latinName: 'YEM SINOUN', gender: 'ស្រី', dob: '25/12/2005' },
+      { id: 'DUC2024-0479', name: 'រចំប៊ រវែន', latinName: 'ROCHOM BORVAEN', gender: 'ប្រុស', dob: '10/11/2002' },
+      { id: 'DUC2024-0487', name: 'រ៉ូម៉ាស់ ខឿន', latinName: 'ROMAS KHOEUN', gender: 'ប្រុស', dob: '13/02/2003' },
+      { id: 'DUC2024-0495', name: 'រាត់ រូន', latinName: 'RAT ROUN', gender: 'ប្រុស', dob: '02/01/2001' },
+      { id: 'DUC2024-0519', name: 'រឿន លីម៉ា', latinName: 'ROEUN LIMA', gender: 'ប្រុស', dob: '23/04/2006' },
+      { id: 'DUC2024-0588', name: 'វិ ថុន', latinName: 'VE THON', gender: 'ប្រុស', dob: '14/07/2002' },
+      { id: 'DUC2024-0632', name: 'សល់ លិច', latinName: 'SOL LICH', gender: 'ប្រុស', dob: '02/01/2003' },
+      { id: 'DUC2024-0659', name: 'សារឿន សេរីវឌ្ឍន៍', latinName: 'SAROEUN SEREYVATH', gender: 'ប្រុស', dob: '17/07/2004' },
+      { id: 'DUC2024-0662', name: 'ស៊ិន ចាន់ថ្លា', latinName: 'SIN CHANTHLA', gender: 'ប្រុស', dob: '03/01/2005' },
+      { id: 'DUC2024-0730', name: 'សេវ ឆ្វាត់', latinName: 'SEV CHHVATH', gender: 'ប្រុស', dob: '01/01/2002' },
+      { id: 'DUC2024-0745', name: 'សៃ ស្រីតូច', latinName: 'SAI SREYTOUCH', gender: 'ស្រី', dob: '10/10/2002' },
+      { id: 'DUC2024-0765', name: 'ហាំ ផល', latinName: 'HAM PHOL', gender: 'ប្រុស', dob: '12/05/2002' },
+      { id: 'DUC2024-0789', name: 'ហួត ធានិន', latinName: 'HUOT THEANIN', gender: 'ប្រុស', dob: '30/11/2003' },
+      { id: 'DUC2024-0802', name: 'ហៀន សុខពិសី', latinName: 'HEAN SOKPISEY', gender: 'ស្រី', dob: '24/03/2006' },
+      { id: 'DUC2024-0803', name: 'ហៀម កាមុត', latinName: 'HIEM KAMOUT', gender: 'ប្រុស', dob: '03/03/2005' },
+      { id: 'DUC2024-0807', name: 'ហេង ស៊ីវម៉េង', latinName: 'HENG SIVMENG', gender: 'ប្រុស', dob: '26/04/2005' },
+      { id: 'DUC2024-0849', name: 'អ៊ុក ថាវ', latinName: 'OUK THAV', gender: 'ប្រុស', dob: '01/01/2003' }
+    ];
 
     function handleLogin(e) {
       e.preventDefault();
       hideError();
 
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value;
+      const userInput = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
       const overlay = document.getElementById('loading-overlay');
 
       overlay.classList.add('show');
@@ -731,13 +765,55 @@
         let found = null;
 
         if (currentRole === 'admin') {
-          found = credentials.admin.find(c => c.username === username && c.password === password);
+          if (userInput.toLowerCase() === adminCredential.username.toLowerCase() && password === adminCredential.password) {
+            found = adminCredential;
+          }
         } else {
-          found = credentials.user.find(c => c.username === username && c.password === password);
-          if (!found) {
-            // Allow any valid student ID with default password
-            found = { username, password: 'duc2024', name: username, role: 'user', id: username };
-            if (password !== 'duc2024') found = null;
+          // Normalize input for flexible matching (Khmer Name, Latin Name, or Student ID)
+          const cleanInput = userInput.replace(/\s+/g, ' ').trim();
+          const lowerInput = cleanInput.toLowerCase();
+          const compactInput = lowerInput.replace(/\s+/g, '');
+
+          // Find student by Khmer Name, Latin Name, or Student ID
+          const student = studentsRoster.find(s => {
+            const sIdLower = s.id.toLowerCase();
+            const sLatinLower = s.latinName.toLowerCase();
+            const sLatinCompact = sLatinLower.replace(/\s+/g, '');
+            const sKhmerCompact = s.name.replace(/\s+/g, '');
+
+            return sIdLower === lowerInput ||
+                   sIdLower.endsWith(lowerInput) ||
+                   s.name === cleanInput ||
+                   sKhmerCompact === compactInput ||
+                   sLatinLower === lowerInput ||
+                   sLatinCompact === compactInput;
+          });
+
+          if (student) {
+            // Validate password (supports default password 'duc2024', Student ID, or Date of Birth)
+            const passLower = password.toLowerCase();
+            const sIdLower = student.id.toLowerCase();
+            const sDobCompact = (student.dob || '').replace(/\//g, '');
+
+            const isPasswordValid = 
+              passLower === 'duc2024' ||
+              passLower === sIdLower ||
+              passLower === sIdLower.replace('duc2024-', '') ||
+              password === student.dob ||
+              password === sDobCompact ||
+              passLower === student.latinName.toLowerCase() ||
+              password === student.name;
+
+            if (isPasswordValid) {
+              found = {
+                role: 'user',
+                id: student.id,
+                name: student.name,
+                latinName: student.latinName,
+                gender: student.gender,
+                dob: student.dob
+              };
+            }
           }
         }
 
@@ -759,9 +835,9 @@
         } else {
           showError(currentRole === 'admin'
             ? 'Username ឬ Password Admin មិនត្រឹមត្រូវ!'
-            : 'Student ID ឬ Password មិនត្រឹមត្រូវ! (Default password: duc2024)');
+            : 'ឈ្មោះ/អត្តលេខ ឬ Password មិនត្រឹមត្រូវ! (អាចប្រើឈ្មោះខ្មែរ ឈ្មោះឡាតាំង ឬ ID ឧ. ម៉ុក សម្បត្តិ ឬ DUC2024-0417, Password: duc2024)');
         }
-      }, 1200);
+      }, 1000);
     }
   </script>
 </body>

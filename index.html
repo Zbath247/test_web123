@@ -133,7 +133,12 @@
 
       <!-- Sidebar Footer / Current User -->
       <div class="sidebar-user glass-panel">
-        <div class="user-avatar" style="background-image: url('https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&auto=format&fit=crop&q=80')"></div>
+        <div class="user-avatar" id="sidebar-user-avatar" style="background-image: url('https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&auto=format&fit=crop&q=80')" title="ប្តូររូបភាពប្រវត្តិរូប">
+          <div class="avatar-upload-overlay">
+            <i data-lucide="camera"></i>
+          </div>
+          <input type="file" id="profile-upload" accept="image/*" style="display: none;">
+        </div>
         <div class="user-meta">
           <span class="user-name">ម៉ុក សម្បត្តិ</span>
           <span class="user-role">អត្តលេខ: DUC2024-0417</span>
@@ -210,7 +215,7 @@
 
           <!-- User Profile Dropdown Pill -->
           <div class="user-pill">
-            <div class="user-pill-avatar" style="background-image: url('https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&auto=format&fit=crop&q=80')"></div>
+            <div class="user-pill-avatar" id="topbar-user-avatar" style="background-image: url('https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&auto=format&fit=crop&q=80')"></div>
             <div class="user-pill-info desktop-only">
               <span class="name">ម៉ុក សម្បត្តិ</span>
               <span class="role">DUC2024-0417</span>
@@ -314,17 +319,17 @@
                 <!-- Class 1 -->
                 <div class="today-class-item active">
                   <div class="class-time-badge">
-                    <span class="time">07:00 - 09:30</span>
+                    <span class="time">08:00 - 11:00</span>
                     <span class="status-tag ongoing">ព្រឹក</span>
                   </div>
                   <div class="class-main-info">
-                    <h4 class="class-name">Database Administration II (DA II)</h4>
+                    <h4 class="class-name">System Analyze and Design (SAD)</h4>
                     <div class="class-meta">
-                      <span><i data-lucide="map-pin"></i> បន្ទប់ DUC2</span>
-                      <span><i data-lucide="user"></i> លោកគ្រូ គឿន មេសា</span>
+                      <span><i data-lucide="map-pin"></i> បន្ទប់ DUC3</span>
+                      <span><i data-lucide="user"></i> លោកគ្រូ ណាង រិទ្ធី</span>
                     </div>
                   </div>
-                  <button class="btn btn-sm btn-primary" onclick="openClassSession('Database Administration II')">
+                  <button class="btn btn-sm btn-primary" onclick="openClassSession('System Analyze and Design')">
                     <i data-lucide="video"></i>
                     <span>ចូលថ្នាក់</span>
                   </button>
@@ -333,17 +338,17 @@
                 <!-- Class 2 -->
                 <div class="today-class-item">
                   <div class="class-time-badge">
-                    <span class="time">09:30 - 12:00</span>
+                    <span class="time">13:00 - 15:00</span>
                     <span class="status-tag upcoming">បន្ទាប់</span>
                   </div>
                   <div class="class-main-info">
-                    <h4 class="class-name">Container I (CTN I)</h4>
+                    <h4 class="class-name">IT Project Management (ITPM)</h4>
                     <div class="class-meta">
-                      <span><i data-lucide="map-pin"></i> បន្ទប់ DUC2</span>
-                      <span><i data-lucide="user"></i> លោកគ្រូ គឿន មេសា</span>
+                      <span><i data-lucide="map-pin"></i> បន្ទប់ DUC3</span>
+                      <span><i data-lucide="user"></i> លោកគ្រូ សែម រ៉ាវី</span>
                     </div>
                   </div>
-                  <button class="btn btn-sm btn-outline" onclick="openClassSession('Container I')">
+                  <button class="btn btn-sm btn-outline" onclick="openClassSession('IT Project Management')">
                     <i data-lucide="file-text"></i>
                     <span>ស្លាយមេរៀន</span>
                   </button>
@@ -352,36 +357,17 @@
                 <!-- Class 3 -->
                 <div class="today-class-item">
                   <div class="class-time-badge">
-                    <span class="time">13:00 - 16:00</span>
+                    <span class="time">15:00 - 16:30</span>
                     <span class="status-tag">រសៀល</span>
                   </div>
                   <div class="class-main-info">
-                    <h4 class="class-name">Cisco IV (CS IV)</h4>
+                    <h4 class="class-name">Cisco V (CSC.V)</h4>
                     <div class="class-meta">
-                      <span><i data-lucide="map-pin"></i> បន្ទប់ DUC2</span>
-                      <span><i data-lucide="user"></i> លោកគ្រូ សែម វ៉ារី</span>
+                      <span><i data-lucide="map-pin"></i> បន្ទប់ DUC3</span>
+                      <span><i data-lucide="user"></i> លោកគ្រូ សែម រ៉ាវី</span>
                     </div>
                   </div>
-                  <button class="btn btn-sm btn-outline" onclick="openClassSession('Cisco IV')">
-                    <i data-lucide="info"></i>
-                    <span>ព័ត៌មាន</span>
-                  </button>
-                </div>
-
-                <!-- Class 4 -->
-                <div class="today-class-item">
-                  <div class="class-time-badge">
-                    <span class="time">17:00 - 20:00</span>
-                    <span class="status-tag">ល្ងាច</span>
-                  </div>
-                  <div class="class-main-info">
-                    <h4 class="class-name">Network Administration II (NA II)</h4>
-                    <div class="class-meta">
-                      <span><i data-lucide="map-pin"></i> បន្ទប់ DUC2</span>
-                      <span><i data-lucide="user"></i> លោកគ្រូ សែម វ៉ារី</span>
-                    </div>
-                  </div>
-                  <button class="btn btn-sm btn-outline" onclick="openClassSession('Network Administration II')">
+                  <button class="btn btn-sm btn-outline" onclick="openClassSession('Cisco V')">
                     <i data-lucide="info"></i>
                     <span>ព័ត៌មាន</span>
                   </button>
@@ -438,6 +424,10 @@
               <p class="view-subtitle">កាលវិភាគផ្លូវការសម្រាប់ថ្នាក់ <strong>G1_NW_B</strong> • បច្ចេកទេសបណ្តាញ • ឆមាសទី ២ (២០២៥-២០២៦)</p>
             </div>
             <div class="timetable-actions">
+              <button class="btn btn-outline btn-sm admin-only" id="btn-edit-timetable">
+                <i data-lucide="edit"></i>
+                <span>កែប្រែកាលវិភាគ</span>
+              </button>
               <button class="btn btn-outline btn-sm" onclick="window.print()">
                 <i data-lucide="printer"></i>
                 <span>បោះពុម្ពកាលវិភាគ</span>
@@ -447,70 +437,58 @@
 
           <!-- Day Filter Buttons -->
           <div class="day-filter-tabs">
-            <button class="day-tab active" data-day="all">ទាំងអស់ (All Classes - 5 មុខវិជ្ជា)</button>
-            <button class="day-tab" data-day="thu">ថ្ងៃព្រហស្បតិ៍ (Thursday - 4 មុខវិជ្ជា)</button>
-            <button class="day-tab" data-day="fri">ថ្ងៃសុក្រ (Friday - 1 មុខវិជ្ជា)</button>
+            <button class="day-tab active" data-day="all">ទាំងអស់ (All Classes - 4 មុខវិជ្ជា)</button>
+            <button class="day-tab" data-day="fri">ថ្ងៃសុក្រ (Friday - 3 មុខវិជ្ជា)</button>
+            <button class="day-tab" data-day="sat">ថ្ងៃសៅរ៍ (Saturday - 1 មុខវិជ្ជា)</button>
           </div>
 
           <!-- Timetable Grid -->
           <div class="timetable-grid" id="timetable-cards-container">
-            <!-- Thursday Item 1 -->
-            <div class="timetable-card glass-panel" data-day="thu">
-              <div class="day-tag-badge">ថ្ងៃព្រហស្បតិ៍ • ព្រឹក</div>
-              <div class="time-range"><i data-lucide="clock"></i> 07:00 - 09:30</div>
-              <h3 class="subject-name">Database Administration II (DA II)</h3>
-              <div class="room-pill"><i data-lucide="map-pin"></i> បន្ទប់ DUC2</div>
-              <div class="instructor-row">
-                <i data-lucide="user"></i>
-                <span>លោកគ្រូ គឿន មេសា</span>
-              </div>
-            </div>
-
-            <!-- Thursday Item 2 -->
-            <div class="timetable-card glass-panel" data-day="thu">
-              <div class="day-tag-badge">ថ្ងៃព្រហស្បតិ៍ • ព្រឹក</div>
-              <div class="time-range"><i data-lucide="clock"></i> 09:30 - 12:00</div>
-              <h3 class="subject-name">Container I (CTN I)</h3>
-              <div class="room-pill"><i data-lucide="map-pin"></i> បន្ទប់ DUC2</div>
-              <div class="instructor-row">
-                <i data-lucide="user"></i>
-                <span>លោកគ្រូ គឿន មេសា</span>
-              </div>
-            </div>
-
-            <!-- Thursday Item 3 -->
-            <div class="timetable-card glass-panel" data-day="thu">
-              <div class="day-tag-badge">ថ្ងៃព្រហស្បតិ៍ • រសៀល</div>
-              <div class="time-range"><i data-lucide="clock"></i> 13:00 - 16:00</div>
-              <h3 class="subject-name">Cisco IV (CS IV)</h3>
-              <div class="room-pill"><i data-lucide="map-pin"></i> បន្ទប់ DUC2</div>
-              <div class="instructor-row">
-                <i data-lucide="user"></i>
-                <span>លោកគ្រូ សែម វ៉ារី</span>
-              </div>
-            </div>
-
-            <!-- Thursday Item 4 -->
-            <div class="timetable-card glass-panel" data-day="thu">
-              <div class="day-tag-badge">ថ្ងៃព្រហស្បតិ៍ • ល្ងាច</div>
-              <div class="time-range"><i data-lucide="clock"></i> 17:00 - 20:00</div>
-              <h3 class="subject-name">Network Administration II (NA II)</h3>
-              <div class="room-pill"><i data-lucide="map-pin"></i> បន្ទប់ DUC2</div>
-              <div class="instructor-row">
-                <i data-lucide="user"></i>
-                <span>លោកគ្រូ សែម វ៉ារី</span>
-              </div>
-            </div>
-
             <!-- Friday Item 1 -->
             <div class="timetable-card glass-panel" data-day="fri">
-              <div class="day-tag-badge">ថ្ងៃសុក្រ • ល្ងាច</div>
-              <div class="time-range"><i data-lucide="clock"></i> 17:30 - 20:30</div>
-              <h3 class="subject-name">Cybersecurity II (CYB II)</h3>
-              <div class="room-pill"><i data-lucide="map-pin"></i> បន្ទប់ DUC2</div>
+              <div class="day-tag-badge">ថ្ងៃសុក្រ • ព្រឹក</div>
+              <div class="time-range"><i data-lucide="clock"></i> 08:00 - 11:00</div>
+              <h3 class="subject-name">System Analyze and Design (SAD)</h3>
+              <div class="room-pill"><i data-lucide="map-pin"></i> បន្ទប់ DUC3</div>
               <div class="instructor-row">
                 <i data-lucide="user"></i>
-                <span>លោកគ្រូ ម៉ន ចន្នី</span>
+                <span>លោកគ្រូ ណាង រិទ្ធី</span>
+              </div>
+            </div>
+
+            <!-- Friday Item 2 -->
+            <div class="timetable-card glass-panel" data-day="fri">
+              <div class="day-tag-badge">ថ្ងៃសុក្រ • រសៀល</div>
+              <div class="time-range"><i data-lucide="clock"></i> 13:00 - 15:00</div>
+              <h3 class="subject-name">IT Project Management (ITPM)</h3>
+              <div class="room-pill"><i data-lucide="map-pin"></i> បន្ទប់ DUC3</div>
+              <div class="instructor-row">
+                <i data-lucide="user"></i>
+                <span>លោកគ្រូ សែម រ៉ាវី</span>
+              </div>
+            </div>
+
+            <!-- Friday Item 3 -->
+            <div class="timetable-card glass-panel" data-day="fri">
+              <div class="day-tag-badge">ថ្ងៃសុក្រ • រសៀល</div>
+              <div class="time-range"><i data-lucide="clock"></i> 15:00 - 16:30</div>
+              <h3 class="subject-name">Cisco V (CSC.V)</h3>
+              <div class="room-pill"><i data-lucide="map-pin"></i> បន្ទប់ DUC3</div>
+              <div class="instructor-row">
+                <i data-lucide="user"></i>
+                <span>លោកគ្រូ សែម រ៉ាវី</span>
+              </div>
+            </div>
+
+            <!-- Saturday Item 1 -->
+            <div class="timetable-card glass-panel" data-day="sat">
+              <div class="day-tag-badge">ថ្ងៃសៅរ៍ • ព្រឹក</div>
+              <div class="time-range"><i data-lucide="clock"></i> 08:00 - 11:00</div>
+              <h3 class="subject-name">Cloud Architecture (CA)</h3>
+              <div class="room-pill"><i data-lucide="map-pin"></i> បន្ទប់ DUC3</div>
+              <div class="instructor-row">
+                <i data-lucide="user"></i>
+                <span>លោកគ្រូ គឿន មេសា</span>
               </div>
             </div>
           </div>
@@ -530,155 +508,124 @@
           </div>
 
           <div class="courses-grid" id="courses-container">
-            <!-- Course Card 1: DA II -->
+            <!-- Course Card 1: SAD -->
             <div class="course-card glass-panel">
               <div class="course-card-top">
-                <div class="course-code-badge">DA-202 • 3 Credits</div>
+                <div class="course-code-badge">SAD-301 • 3 Credits</div>
                 <div class="course-progress-label">វឌ្ឍនភាព: <strong>65%</strong></div>
               </div>
-              <h3 class="course-title">Database Administration II (DA II)</h3>
-              <p class="course-desc">ការគ្រប់គ្រង Database កម្រិតខ្ពស់, Backup & Recovery Strategy, Replication, High Availability និង Security Architecture។</p>
+              <h3 class="course-title">System Analyze and Design (SAD)</h3>
+              <p class="course-desc">ការវិភាគប្រព័ន្ធ និងការរចនាប្រព័ន្ធព័ត៌មាន, System Modeling, UML, និង Software Development Life Cycle (SDLC)។</p>
               
               <div class="course-progress-bar">
                 <div class="progress-fill" style="width: 65%;"></div>
               </div>
 
               <div class="course-details-list">
-                <div class="detail-line"><i data-lucide="user"></i> លោកគ្រូ គឿន មេសា</div>
-                <div class="detail-line"><i data-lucide="clock"></i> ថ្ងៃព្រហស្បតិ៍ (07:00 - 09:30) • បន្ទប់ DUC2</div>
+                <div class="detail-line"><i data-lucide="user"></i> លោកគ្រូ ណាង រិទ្ធី</div>
+                <div class="detail-line"><i data-lucide="clock"></i> ថ្ងៃសុក្រ (08:00 - 11:00) • បន្ទប់ DUC3</div>
                 <div class="detail-line"><i data-lucide="users"></i> និស្សិត: 43 នាក់</div>
               </div>
 
               <div class="course-card-actions">
-                <button class="btn btn-outline btn-sm btn-full" onclick="downloadSyllabus('Database Administration II')">
+                <button class="btn btn-outline btn-sm btn-full" onclick="downloadSyllabus('System Analyze and Design')">
                   <i data-lucide="download"></i>
                   <span>ទាញយក Syllabus</span>
                 </button>
-                <button class="btn btn-primary btn-sm btn-full" onclick="openCourseDetails('Database Administration II')">
+                <button class="btn btn-primary btn-sm btn-full" onclick="openCourseDetails('System Analyze and Design')">
                   <i data-lucide="eye"></i>
                   <span>មើលមេរៀន</span>
                 </button>
               </div>
             </div>
 
-            <!-- Course Card 2: CTN I -->
+            <!-- Course Card 2: ITPM -->
             <div class="course-card glass-panel">
               <div class="course-card-top">
-                <div class="course-code-badge">CTN-101 • 3 Credits</div>
+                <div class="course-code-badge">ITPM-401 • 3 Credits</div>
                 <div class="course-progress-label">វឌ្ឍនភាព: <strong>70%</strong></div>
               </div>
-              <h3 class="course-title">Container I (CTN I)</h3>
-              <p class="course-desc">ស្ថាបត្យកម្ម Docker Containers, Dockerfile Optimization, Multi-container Orchestration ជាមួយ Docker Compose & CI/CD Pipeline។</p>
+              <h3 class="course-title">IT Project Management (ITPM)</h3>
+              <p class="course-desc">ការគ្រប់គ្រងគម្រោង IT, Agile Methodology, Scrum Framework, Project Planning និង Risk Management។</p>
               
               <div class="course-progress-bar">
                 <div class="progress-fill" style="width: 70%;"></div>
               </div>
 
               <div class="course-details-list">
-                <div class="detail-line"><i data-lucide="user"></i> លោកគ្រូ គឿន មេសា</div>
-                <div class="detail-line"><i data-lucide="clock"></i> ថ្ងៃព្រហស្បតិ៍ (09:30 - 12:00) • បន្ទប់ DUC2</div>
+                <div class="detail-line"><i data-lucide="user"></i> លោកគ្រូ សែម រ៉ាវី</div>
+                <div class="detail-line"><i data-lucide="clock"></i> ថ្ងៃសុក្រ (13:00 - 15:00) • បន្ទប់ DUC3</div>
                 <div class="detail-line"><i data-lucide="users"></i> និស្សិត: 43 នាក់</div>
               </div>
 
               <div class="course-card-actions">
-                <button class="btn btn-outline btn-sm btn-full" onclick="downloadSyllabus('Container I')">
+                <button class="btn btn-outline btn-sm btn-full" onclick="downloadSyllabus('IT Project Management')">
                   <i data-lucide="download"></i>
                   <span>ទាញយក Syllabus</span>
                 </button>
-                <button class="btn btn-primary btn-sm btn-full" onclick="openCourseDetails('Container I')">
+                <button class="btn btn-primary btn-sm btn-full" onclick="openCourseDetails('IT Project Management')">
                   <i data-lucide="eye"></i>
                   <span>មើលមេរៀន</span>
                 </button>
               </div>
             </div>
 
-            <!-- Course Card 3: Cisco IV -->
+            <!-- Course Card 3: Cisco V -->
             <div class="course-card glass-panel">
               <div class="course-card-top">
-                <div class="course-code-badge">CS-401 • 3 Credits</div>
+                <div class="course-code-badge">CS-501 • 3 Credits</div>
                 <div class="course-progress-label">វឌ្ឍនភាព: <strong>55%</strong></div>
               </div>
-              <h3 class="course-title">Cisco IV (CS IV)</h3>
-              <p class="course-desc">Connecting Networks, WAN Technologies, IPsec VPN, Network Automation, Software-Defined Networking (SDN) និង Network Security។</p>
+              <h3 class="course-title">Cisco V (CSC.V)</h3>
+              <p class="course-desc">Advanced Routing and Switching, Network Troubleshooting, BGP, OSPF, និង Enterprise Network Architecture។</p>
               
               <div class="course-progress-bar">
                 <div class="progress-fill" style="width: 55%;"></div>
               </div>
 
               <div class="course-details-list">
-                <div class="detail-line"><i data-lucide="user"></i> លោកគ្រូ សែម វ៉ារី</div>
-                <div class="detail-line"><i data-lucide="clock"></i> ថ្ងៃព្រហស្បតិ៍ (13:00 - 16:00) • បន្ទប់ DUC2</div>
+                <div class="detail-line"><i data-lucide="user"></i> លោកគ្រូ សែម រ៉ាវី</div>
+                <div class="detail-line"><i data-lucide="clock"></i> ថ្ងៃសុក្រ (15:00 - 16:30) • បន្ទប់ DUC3</div>
                 <div class="detail-line"><i data-lucide="users"></i> និស្សិត: 43 នាក់</div>
               </div>
 
               <div class="course-card-actions">
-                <button class="btn btn-outline btn-sm btn-full" onclick="downloadSyllabus('Cisco IV')">
+                <button class="btn btn-outline btn-sm btn-full" onclick="downloadSyllabus('Cisco V')">
                   <i data-lucide="download"></i>
                   <span>ទាញយក Syllabus</span>
                 </button>
-                <button class="btn btn-primary btn-sm btn-full" onclick="openCourseDetails('Cisco IV')">
+                <button class="btn btn-primary btn-sm btn-full" onclick="openCourseDetails('Cisco V')">
                   <i data-lucide="eye"></i>
                   <span>មើលមេរៀន</span>
                 </button>
               </div>
             </div>
 
-            <!-- Course Card 4: NA II -->
+            <!-- Course Card 4: CA -->
             <div class="course-card glass-panel">
               <div class="course-card-top">
-                <div class="course-code-badge">NA-202 • 3 Credits</div>
+                <div class="course-code-badge">CA-301 • 3 Credits</div>
                 <div class="course-progress-label">វឌ្ឍនភាព: <strong>60%</strong></div>
               </div>
-              <h3 class="course-title">Network Administration II (NA II)</h3>
-              <p class="course-desc">ការគ្រប់គ្រង Enterprise Servers (Windows/Linux), Active Directory, DNS/DHCP Architecture, និង Group Policy Management។</p>
+              <h3 class="course-title">Cloud Architecture (CA)</h3>
+              <p class="course-desc">ស្ថាបត្យកម្ម Cloud Computing, AWS/Azure/GCP Services, Cloud Native Applications និង Serverless Computing។</p>
               
               <div class="course-progress-bar">
                 <div class="progress-fill" style="width: 60%;"></div>
               </div>
 
               <div class="course-details-list">
-                <div class="detail-line"><i data-lucide="user"></i> លោកគ្រូ សែម វ៉ារី</div>
-                <div class="detail-line"><i data-lucide="clock"></i> ថ្ងៃព្រហស្បតិ៍ (17:00 - 20:00) • បន្ទប់ DUC2</div>
+                <div class="detail-line"><i data-lucide="user"></i> លោកគ្រូ គឿន មេសា</div>
+                <div class="detail-line"><i data-lucide="clock"></i> ថ្ងៃសៅរ៍ (08:00 - 11:00) • បន្ទប់ DUC3</div>
                 <div class="detail-line"><i data-lucide="users"></i> និស្សិត: 43 នាក់</div>
               </div>
 
               <div class="course-card-actions">
-                <button class="btn btn-outline btn-sm btn-full" onclick="downloadSyllabus('Network Administration II')">
+                <button class="btn btn-outline btn-sm btn-full" onclick="downloadSyllabus('Cloud Architecture')">
                   <i data-lucide="download"></i>
                   <span>ទាញយក Syllabus</span>
                 </button>
-                <button class="btn btn-primary btn-sm btn-full" onclick="openCourseDetails('Network Administration II')">
-                  <i data-lucide="eye"></i>
-                  <span>មើលមេរៀន</span>
-                </button>
-              </div>
-            </div>
-
-            <!-- Course Card 5: CYB II -->
-            <div class="course-card glass-panel">
-              <div class="course-card-top">
-                <div class="course-code-badge">CYB-202 • 3 Credits</div>
-                <div class="course-progress-label">វឌ្ឍនភាព: <strong>50%</strong></div>
-              </div>
-              <h3 class="course-title">Cybersecurity II (CYB II)</h3>
-              <p class="course-desc">ការវិភាគការគំរាមកំហែង (Threat Analysis), Penetration Testing, SOC Operations, Incident Response, និង Cryptography Systems។</p>
-              
-              <div class="course-progress-bar">
-                <div class="progress-fill" style="width: 50%;"></div>
-              </div>
-
-              <div class="course-details-list">
-                <div class="detail-line"><i data-lucide="user"></i> លោកគ្រូ ម៉ន ចន្នី</div>
-                <div class="detail-line"><i data-lucide="clock"></i> ថ្ងៃសុក្រ (17:30 - 20:30) • បន្ទប់ DUC2</div>
-                <div class="detail-line"><i data-lucide="users"></i> និស្សិត: 43 នាក់</div>
-              </div>
-
-              <div class="course-card-actions">
-                <button class="btn btn-outline btn-sm btn-full" onclick="downloadSyllabus('Cybersecurity II')">
-                  <i data-lucide="download"></i>
-                  <span>ទាញយក Syllabus</span>
-                </button>
-                <button class="btn btn-primary btn-sm btn-full" onclick="openCourseDetails('Cybersecurity II')">
+                <button class="btn btn-primary btn-sm btn-full" onclick="openCourseDetails('Cloud Architecture')">
                   <i data-lucide="eye"></i>
                   <span>មើលមេរៀន</span>
                 </button>
@@ -696,16 +643,10 @@
             </div>
             <div class="attendance-controls">
               <select class="form-select-sm glass-panel" id="attendance-course-select">
-                <option value="da2">Database Administration II (DA II)</option>
-                <option value="ctn1">Container I (CTN I)</option>
-                <option value="cs4">Cisco IV (CS IV)</option>
-                <option value="na2">Network Administration II (NA II)</option>
-                <option value="cyb2">Cybersecurity II (CYB II)</option>
-              </select>
-                <option value="web">វិស្វកម្មគេហទំព័រ (Web Engineering)</option>
-                <option value="ds">រចនាសម្ព័ន្ធទិន្នន័យ (Data Structures)</option>
-                <option value="db">ប្រព័ន្ធមូលដ្ឋានទិន្នន័យ (Database Systems)</option>
-                <option value="ai">បញ្ញាសិប្បនិម្មិត (AI)</option>
+                <option value="sad">System Analyze and Design (SAD)</option>
+                <option value="itpm">IT Project Management (ITPM)</option>
+                <option value="cscv">Cisco V (CSC.V)</option>
+                <option value="ca">Cloud Architecture (CA)</option>
               </select>
               <input type="date" class="form-input-sm glass-panel" id="attendance-date" value="2026-08-25">
             </div>
@@ -793,6 +734,12 @@
               <h2 class="view-title">កិច្ចការផ្ទះ & ការប្រឡង (Assignments & Submissions)</h2>
               <p class="view-subtitle">តាមដានកាលបរិច្ឆេទផុតកំណត់ និងប្រគល់កិច្ចការសិក្សា</p>
             </div>
+            <div class="admin-only">
+              <button class="btn btn-primary btn-sm" id="btn-add-assignment">
+                <i data-lucide="plus-circle"></i>
+                <span>ដាក់កិច្ចការថ្មី</span>
+              </button>
+            </div>
           </div>
 
           <div class="assignments-list">
@@ -875,10 +822,16 @@
               <h2 class="view-title">តារាងតាមដានពិន្ទុ & លទ្ធផលសិក្សា (Academic Gradebook)</h2>
               <p class="view-subtitle">លទ្ធផលវាយតម្លៃការសិក្សាប្រចាំឆមាសទី ២</p>
             </div>
-            <div class="gpa-badge-highlight">
-              <span class="gpa-label">GPA សរុប:</span>
-              <span class="gpa-val">3.78</span>
-              <span class="gpa-grade">និទ្ទេស A</span>
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <button class="btn btn-primary btn-sm admin-only" id="btn-edit-gradebook">
+                <i data-lucide="edit-3"></i>
+                <span id="text-edit-gradebook">បញ្ចូលពិន្ទុ</span>
+              </button>
+              <div class="gpa-badge-highlight">
+                <span class="gpa-label">GPA សរុប:</span>
+                <span class="gpa-val">3.78</span>
+                <span class="gpa-grade">និទ្ទេស A</span>
+              </div>
             </div>
           </div>
 
@@ -900,8 +853,8 @@
               </thead>
               <tbody>
                 <tr>
-                  <td><strong>CS-301</strong></td>
-                  <td>វិស្វកម្មគេហទំព័រ (Web Engineering)</td>
+                  <td><strong>DA-202</strong></td>
+                  <td>Database Administration II (DA II)</td>
                   <td>3</td>
                   <td>10</td>
                   <td>19</td>
@@ -912,8 +865,8 @@
                   <td><span class="status-tag passed">ជាប់</span></td>
                 </tr>
                 <tr>
-                  <td><strong>CS-302</strong></td>
-                  <td>រចនាសម្ព័ន្ធទិន្នន័យ (Data Structures)</td>
+                  <td><strong>CTN-101</strong></td>
+                  <td>Container I (CTN I)</td>
                   <td>3</td>
                   <td>10</td>
                   <td>18</td>
@@ -924,8 +877,8 @@
                   <td><span class="status-tag passed">ជាប់</span></td>
                 </tr>
                 <tr>
-                  <td><strong>CS-303</strong></td>
-                  <td>ប្រព័ន្ធមូលដ្ឋានទិន្នន័យ (Database Systems)</td>
+                  <td><strong>CS-401</strong></td>
+                  <td>Cisco IV (CS IV)</td>
                   <td>3</td>
                   <td>10</td>
                   <td>19</td>
@@ -936,8 +889,8 @@
                   <td><span class="status-tag passed">ជាប់</span></td>
                 </tr>
                 <tr>
-                  <td><strong>CS-304</strong></td>
-                  <td>បញ្ញាសិប្បនិម្មិត (Artificial Intelligence)</td>
+                  <td><strong>NA-202</strong></td>
+                  <td>Network Administration II (NA II)</td>
                   <td>3</td>
                   <td>9.5</td>
                   <td>17</td>
@@ -948,26 +901,14 @@
                   <td><span class="status-tag passed">ជាប់</span></td>
                 </tr>
                 <tr>
-                  <td><strong>CS-305</strong></td>
-                  <td>បណ្តាញកុំព្យូទ័រ (Computer Networks)</td>
+                  <td><strong>CYB-202</strong></td>
+                  <td>Cybersecurity II (CYB II)</td>
                   <td>3</td>
                   <td>10</td>
                   <td>18</td>
                   <td>26</td>
                   <td>36</td>
                   <td><strong class="text-green">90</strong></td>
-                  <td><span class="grade-pill grade-a">A</span></td>
-                  <td><span class="status-tag passed">ជាប់</span></td>
-                </tr>
-                <tr>
-                  <td><strong>CS-306</strong></td>
-                  <td>ការរចនាបទពិសោធន៍អ្នកប្រើ (UI/UX Design)</td>
-                  <td>3</td>
-                  <td>10</td>
-                  <td>20</td>
-                  <td>29</td>
-                  <td>38</td>
-                  <td><strong class="text-green">97</strong></td>
                   <td><span class="grade-pill grade-a">A</span></td>
                   <td><span class="status-tag passed">ជាប់</span></td>
                 </tr>
@@ -982,6 +923,12 @@
             <div>
               <h2 class="view-title">សេចក្តីជូនដំណឹងសាកលវិទ្យាល័យ (University Announcements)</h2>
               <p class="view-subtitle">ព័ត៌មានផ្លូវការ កាលវិភាគប្រឡង និងព្រឹត្តិការណ៍សិក្សា</p>
+            </div>
+            <div class="admin-only">
+              <button class="btn btn-primary btn-sm" id="btn-add-announcement">
+                <i data-lucide="plus-square"></i>
+                <span>ជូនដំណឹងថ្មី</span>
+              </button>
             </div>
           </div>
 
@@ -1110,6 +1057,78 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="course-details-modal" aria-hidden="true">
+    <div class="modal-container glass-panel">
+      <button class="modal-close" onclick="closeModal('course-details-modal')" aria-label="Close">
+        <i data-lucide="x"></i>
+      </button>
+      <div class="modal-header">
+        <h3 id="modal-course-title">មុខវិជ្ជា</h3>
+        <p class="modal-subtitle">ឯកសារមេរៀន និងស្លាយបង្រៀន</p>
+      </div>
+      <div class="modal-body" style="padding: 0 24px 24px 24px;">
+        <ul class="lesson-file-list" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px;">
+          <li style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <i data-lucide="file-text" style="color: var(--primary);"></i>
+              <span>មេរៀនទី១: សេចក្តីផ្តើម (Chapter 1)</span>
+            </div>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn btn-outline btn-sm" title="មើលជា PDF" onclick="openPdfViewer('មេរៀនទី១: សេចក្តីផ្តើម (Chapter 1).pdf')"><i data-lucide="eye"></i></button>
+              <button class="btn btn-outline btn-sm" onclick="showToast('ទាញយក', 'កំពុងទាញយកមេរៀនទី១')"><i data-lucide="download"></i></button>
+              <button class="btn btn-outline btn-sm admin-only" style="color: #ef4444; border-color: rgba(239, 68, 68, 0.4);" onclick="this.parentElement.parentElement.remove(); showToast('ជោគជ័យ', 'បានលុបឯកសារ');"><i data-lucide="trash-2"></i></button>
+            </div>
+          </li>
+          <li style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <i data-lucide="file-text" style="color: var(--primary);"></i>
+              <span>មេរៀនទី២: មូលដ្ឋានគ្រឹះ (Chapter 2)</span>
+            </div>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn btn-outline btn-sm" title="មើលជា PDF" onclick="openPdfViewer('មេរៀនទី២: មូលដ្ឋានគ្រឹះ (Chapter 2).pdf')"><i data-lucide="eye"></i></button>
+              <button class="btn btn-outline btn-sm" onclick="showToast('ទាញយក', 'កំពុងទាញយកមេរៀនទី២')"><i data-lucide="download"></i></button>
+              <button class="btn btn-outline btn-sm admin-only" style="color: #ef4444; border-color: rgba(239, 68, 68, 0.4);" onclick="this.parentElement.parentElement.remove(); showToast('ជោគជ័យ', 'បានលុបឯកសារ');"><i data-lucide="trash-2"></i></button>
+            </div>
+          </li>
+          <li style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <i data-lucide="video" style="color: var(--text-rose);"></i>
+              <span>វីដេអូពន្យល់: Session 1 Recording</span>
+            </div>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn btn-outline btn-sm" title="មើលវីដេអូ" onclick="openPdfViewer('Session 1 Recording.mp4')"><i data-lucide="eye"></i></button>
+              <button class="btn btn-outline btn-sm" onclick="showToast('ទាញយក', 'កំពុងទាញយកវីដេអូ')"><i data-lucide="download"></i></button>
+              <button class="btn btn-outline btn-sm admin-only" style="color: #ef4444; border-color: rgba(239, 68, 68, 0.4);" onclick="this.parentElement.parentElement.remove(); showToast('ជោគជ័យ', 'បានលុបឯកសារ');"><i data-lucide="trash-2"></i></button>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="modal-actions" style="margin-top: 0;">
+        <button type="button" class="btn btn-outline" style="width: 100%;" onclick="closeModal('course-details-modal')">បិទផ្ទាំង</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PDF Viewer Modal -->
+  <div class="modal-backdrop" id="pdf-viewer-modal" aria-hidden="true">
+    <div class="modal-container glass-panel" style="max-width: 800px; width: 90%; height: 85vh; display: flex; flex-direction: column; padding: 20px;">
+      <button class="modal-close" onclick="closeModal('pdf-viewer-modal')" aria-label="Close" style="top: 15px; right: 15px;">
+        <i data-lucide="x"></i>
+      </button>
+      <div class="modal-header" style="flex-shrink: 0; padding-bottom: 16px; margin-bottom: 0;">
+        <h3 id="pdf-viewer-title">ឈ្មោះឯកសារ</h3>
+        <p class="modal-subtitle">Document Viewer Preview</p>
+      </div>
+      <div class="modal-body" id="pdf-viewer-content" style="flex-grow: 1; padding: 10px 0 0 0; display: flex; margin-bottom: 0;">
+        <div style="flex-grow: 1; background: #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; border: 1px solid rgba(255,255,255,0.1);">
+           <i data-lucide="file-text" style="width: 64px; height: 64px; color: #64748b;"></i>
+           <h4 style="font-weight: 600; font-size: 18px; color: #334155;" id="pdf-viewer-inner-title">Preview Mode</h4>
+           <p style="font-size: 14px; color: #64748b; text-align: center; max-width: 80%;">នៅក្នុងប្រព័ន្ធពិតប្រាកដ ទីនេះនឹងជាផ្ទាំងបង្ហាញឯកសារ (PDF Viewer) ផ្ទាល់តែម្តង ដូច្នេះនិស្សិតអាចអានបានដោយមិនបាច់ទាញយក។</p>
+        </div>
+      </div>
     </div>
   </div>
 

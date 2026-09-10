@@ -128,6 +128,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (exportBtn && !isAdmin) exportBtn.style.display = 'none';
       if (addCourseBtn) addCourseBtn.style.display = 'none';
 
+      // Hide all admin-only elements for regular users
+      document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
+
       // Disable all attend-toggle-btn for regular users (read-only)
       document.querySelectorAll('.attend-toggle-btn').forEach(btn => {
         btn.disabled = true;
@@ -579,14 +582,412 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   window.openCourseDetails = function(courseName) {
-    showToast('បើកមេរៀន', `កំពុងបង្ហាញឯកសារស្លាយ និងមេរៀននៃមុខវិជ្ជា ${courseName}`);
+    const modal = document.getElementById('course-details-modal');
+    const titleEl = document.getElementById('modal-course-title');
+    if (modal && titleEl) {
+      titleEl.textContent = courseName;
+      
+      const listContainer = modal.querySelector('.lesson-file-list');
+      if (listContainer) {
+        // Clear previously dynamically added items (keep defaults if desired, but better clear dynamic ones)
+        const dynamicItems = listContainer.querySelectorAll('.dynamic-item');
+        dynamicItems.forEach(item => item.remove());
+        
+        // Load from localStorage
+        const storageKey = `duc-course-files-${courseName}`;
+        const files = JSON.parse(localStorage.getItem(storageKey) || '[]');
+        
+        let currentSession = {};
+        try {
+          const raw = localStorage.getItem('duc-session');
+          if (raw) currentSession = JSON.parse(raw);
+        } catch(e) {}
+        const isAdminSession = currentSession.role === 'admin';
+
+        files.forEach(file => {
+          const li = document.createElement('li');
+          li.className = 'dynamic-item';
+          li.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-top: 10px;';
+          
+          let deleteBtnHTML = '';
+          if (isAdminSession) {
+            deleteBtnHTML = `<button class="btn btn-outline btn-sm" style="color: #ef4444; border-color: rgba(239, 68, 68, 0.4);" title="លុបឯកសារ" onclick="deleteUploadedFile('${courseName}', '${file.name}', event)"><i data-lucide="trash-2"></i></button>`;
+          }
+
+          li.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <i data-lucide="file" style="color: var(--primary);"></i>
+              <span>${file.name} <span class="badge text-xs bg-green-500/10 text-green-500 ml-2">ថ្មី (New)</span></span>
+            </div>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn btn-outline btn-sm" title="មើលជា PDF" onclick="openPdfViewer('${file.name}')"><i data-lucide="eye"></i></button>
+              <button class="btn btn-outline btn-sm" onclick="showToast('ទាញយក', 'កំពុងទាញយកឯកសារ')"><i data-lucide="download"></i></button>
+              ${deleteBtnHTML}
+            </div>
+          `;
+          listContainer.appendChild(li);
+        });
+      }
+
+      modal.classList.add('active');
+      if (window.lucide) window.lucide.createIcons();
+    } else {
+      showToast('បើកមេរៀន', `កំពុងបង្ហាញឯកសារស្លាយ និងមេរៀននៃមុខវិជ្ជា ${courseName}`);
+    }
+  };
+
+  window.deleteUploadedFile = function(courseName, fileName, event) {
+    if (event) event.stopPropagation();
+    if (!confirm('តើអ្នកពិតជាចង់លុបឯកសារមេរៀននេះមែនទេ?')) return;
+    
+    const storageKey = `duc-course-files-${courseName}`;
+    let files = JSON.parse(localStorage.getItem(storageKey) || '[]');
+    files = files.filter(f => f.name !== fileName);
+    localStorage.setItem(storageKey, JSON.stringify(files));
+    
+    if (window.uploadedFilesMemory && window.uploadedFilesMemory[fileName]) {
+      delete window.uploadedFilesMemory[fileName];
+    }
+    
+    showToast('ជោគជ័យ', 'ឯកសារមេរៀនត្រូវបានលុបចេញពីប្រព័ន្ធ។');
+    // Refresh modal
+    window.openCourseDetails(courseName);
+  };
+
+  window.uploadedFilesMemory = window.uploadedFilesMemory || {};
+
+  window.openPdfViewer = function(fileName) {
+    const modal = document.getElementById('pdf-viewer-modal');
+    const titleEl = document.getElementById('pdf-viewer-title');
+    const contentEl = document.getElementById('pdf-viewer-content');
+    
+    if (modal && titleEl && contentEl) {
+      titleEl.textContent = fileName;
+      
+      const file = window.uploadedFilesMemory[fileName];
+      
+      if (file) {
+        const url = URL.createObjectURL(file);
+        const type = file.type || '';
+        
+        if (type.startsWith('image/')) {
+          contentEl.innerHTML = `<img src="${url}" style="max-width: 100%; max-height: 100%; margin: 0 auto; object-fit: contain; border-radius: 8px;">`;
+        } else if (type === 'application/pdf') {
+          contentEl.innerHTML = `<iframe src="${url}" width="100%" height="100%" style="border: none; border-radius: 8px; background: #fff;"></iframe>`;
+        } else if (type.startsWith('video/')) {
+          contentEl.innerHTML = `<video src="${url}" controls style="max-width: 100%; max-height: 100%; border-radius: 8px; margin: 0 auto;"></video>`;
+        } else {
+          contentEl.innerHTML = `
+            <div style="flex-grow: 1; background: #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; border: 1px solid rgba(255,255,255,0.1); padding: 20px;">
+               <i data-lucide="cloud-off" style="width: 64px; height: 64px; color: #64748b;"></i>
+               <h4 style="font-weight: 600; font-size: 18px; color: #334155; text-align: center;">ត្រូវការភ្ជាប់ជាមួយ Google Docs / Office 365</h4>
+               <p style="font-size: 14px; color: #64748b; text-align: center; max-width: 90%;">ឯកសារនេះត្រូវបាន Upload ពីកុំព្យូទ័ររបស់អ្នក (Local)។ ដើម្បីមើលឯកសារ Word, Excel ឬ PowerPoint ផ្ទាល់ក្នុង Browser តាមរយៈ Google Docs Viewer គឺតម្រូវឱ្យឯកសារនេះមាន Public URL (ឧ. ផ្ទុកលើ Cloud)។</p>
+               <p style="font-size: 14px; color: #64748b; text-align: center; max-width: 90%;">នៅក្នុងប្រព័ន្ធពិតប្រាកដ ឯកសារនឹងត្រូវរក្សាទុកលើ Cloud ទើបអាចបើកបាន។ បច្ចុប្បន្ន សូមចុចប៊ូតុង "ទាញយក" ដើម្បីមើល។</p>
+            </div>
+          `;
+        }
+      } else {
+        // Mock static files or lost session files
+        let publicUrl = '';
+        if (fileName.includes('Chapter 1')) {
+          publicUrl = 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
+        } else if (fileName.includes('Chapter 2')) {
+          publicUrl = 'https://scholar.harvard.edu/files/torman_personal/files/samplepptx.pptx';
+        }
+
+        if (publicUrl) {
+          const gviewUrl = `https://docs.google.com/gview?url=${publicUrl}&embedded=true`;
+          contentEl.innerHTML = `<iframe src="${gviewUrl}" width="100%" height="100%" style="border: none; border-radius: 8px; background: #fff;"></iframe>`;
+        } else if (fileName.includes('Recording.mp4')) {
+          contentEl.innerHTML = `
+            <div style="flex-grow: 1; background: #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; border: 1px solid rgba(255,255,255,0.1);">
+               <i data-lucide="video" style="width: 64px; height: 64px; color: #64748b;"></i>
+               <h4 style="font-weight: 600; font-size: 18px; color: #334155;">វីដេអូត្រូវបានលាក់ (Mockup)</h4>
+               <p style="font-size: 14px; color: #64748b; text-align: center; max-width: 80%;">នៅក្នុងប្រព័ន្ធពិតប្រាកដ ទីនេះនឹងជាផ្ទាំងបង្ហាញវីដេអូ។</p>
+            </div>
+          `;
+        } else {
+          // It's a file from localStorage whose File object was lost on refresh
+          contentEl.innerHTML = `
+            <div style="flex-grow: 1; background: #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; border: 1px solid rgba(255,255,255,0.1); padding: 20px;">
+               <i data-lucide="file-warning" style="width: 64px; height: 64px; color: #eab308;"></i>
+               <h4 style="font-weight: 600; font-size: 18px; color: #334155; text-align: center;">មិនអាចបង្ហាញឯកសារ (Local Mockup)</h4>
+               <p style="font-size: 14px; color: #64748b; text-align: center; max-width: 90%;">ឯកសារ <b>${fileName}</b> នេះត្រូវបាន Upload រួចហើយ ប៉ុន្តែដោយសារប្រព័ន្ធកំពុងរត់ជាទម្រង់សាកល្បង (Local Mockup) រាល់ឯកសារដែល Upload នឹងបាត់បង់ការភ្ជាប់ (Preview) នៅពេលអ្នក Refresh គេហទំព័រ។</p>
+               <p style="font-size: 14px; color: #64748b; text-align: center; max-width: 90%;">ដើម្បីសាកល្បងមុខងារ Preview សូម Upload ឯកសារ (PDF, រូបភាព...) ជាថ្មី រួចចុចមើលភ្លាមៗដោយកុំ Refresh។ (ប្រសិនបើជាឯកសារ Word/PPT សូមចុចទាញយកសិន។)</p>
+            </div>
+          `;
+        }
+      }
+
+      modal.classList.add('active');
+      if (window.lucide) window.lucide.createIcons();
+    }
   };
 
   window.openClassSession = function(courseName) {
     showToast('ចូលថ្នាក់រៀន', `កំពុងភ្ជាប់ទៅកាន់បន្ទប់រៀននិម្មិតសម្រាប់ ${courseName}`);
   };
 
-  // --- 9. Global Search Filter ---
+  // --- 9. Profile Image Upload ---
+  const profileUploadInput = document.getElementById('profile-upload');
+  const sidebarAvatar = document.getElementById('sidebar-user-avatar');
+  const topbarAvatar = document.getElementById('topbar-user-avatar');
+
+  // Determine unique storage key based on current session
+  let profileStorageKey = 'duc-profile-image-default';
+  if (currentSession && currentSession.userId) {
+    profileStorageKey = `duc-profile-image-${currentSession.userId}`;
+  } else if (isAdmin) {
+    profileStorageKey = `duc-profile-image-admin`;
+  }
+
+  // Load saved profile image on load
+  const savedProfileImage = localStorage.getItem(profileStorageKey);
+  if (savedProfileImage) {
+    if (sidebarAvatar) sidebarAvatar.style.backgroundImage = `url(${savedProfileImage})`;
+    if (topbarAvatar) topbarAvatar.style.backgroundImage = `url(${savedProfileImage})`;
+  }
+
+  if (sidebarAvatar && profileUploadInput) {
+    sidebarAvatar.addEventListener('click', () => {
+      profileUploadInput.click();
+    });
+
+    profileUploadInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const img = new Image();
+          img.onload = function() {
+            // Resize image to save storage space
+            const canvas = document.createElement('canvas');
+            const MAX_SIZE = 250;
+            let width = img.width;
+            let height = img.height;
+
+            if (width > height) {
+              if (width > MAX_SIZE) {
+                height *= MAX_SIZE / width;
+                width = MAX_SIZE;
+              }
+            } else {
+              if (height > MAX_SIZE) {
+                width *= MAX_SIZE / height;
+                height = MAX_SIZE;
+              }
+            }
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            const base64String = canvas.toDataURL('image/jpeg', 0.85);
+            
+            try {
+              localStorage.setItem(profileStorageKey, base64String);
+              sidebarAvatar.style.backgroundImage = `url(${base64String})`;
+              if (topbarAvatar) topbarAvatar.style.backgroundImage = `url(${base64String})`;
+              showToast('ជោគជ័យ!', 'រូបភាពប្រវត្តិរូបរបស់អ្នកត្រូវបានផ្លាស់ប្តូរ។');
+            } catch(err) {
+              showToast('បរាជ័យ', 'មានបញ្ហាក្នុងការរក្សាទុករូបភាព។');
+            }
+          };
+          img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  // --- 10. Admin Actions ---
+  const btnEditTimetable = document.getElementById('btn-edit-timetable');
+  const btnAddAssignment = document.getElementById('btn-add-assignment');
+  const btnAddAnnouncement = document.getElementById('btn-add-announcement');
+  const btnEditGradebook = document.getElementById('btn-edit-gradebook');
+  const txtEditGradebook = document.getElementById('text-edit-gradebook');
+
+  let isEditingTimetable = false;
+  if (btnEditTimetable) {
+    btnEditTimetable.addEventListener('click', () => {
+      const timetableCards = document.querySelectorAll('.timetable-card');
+      const txtBtn = btnEditTimetable.querySelector('span');
+      
+      isEditingTimetable = !isEditingTimetable;
+      
+      if (isEditingTimetable) {
+        if (txtBtn) txtBtn.textContent = 'រក្សាទុកកាលវិភាគ';
+        btnEditTimetable.classList.remove('btn-outline');
+        btnEditTimetable.classList.add('btn-primary');
+        
+        timetableCards.forEach(card => {
+          const elementsToEdit = [
+            card.querySelector('.subject-name'),
+            card.querySelector('.day-tag-badge'),
+            card.querySelector('.time-range'),
+            card.querySelector('.room-pill'),
+            card.querySelector('.instructor-row span') // the text inside instructor row
+          ];
+          
+          elementsToEdit.forEach(el => {
+            if (el) {
+              el.setAttribute('contenteditable', 'true');
+              el.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+              el.style.border = '1px dashed var(--border-focus)';
+              el.style.outline = 'none';
+              el.style.padding = '2px 4px';
+              el.style.borderRadius = '4px';
+            }
+          });
+        });
+        showToast('របៀបកែប្រែ', 'អ្នកអាចចុចលើអក្សរក្នុងកាតដើម្បីធ្វើការកែប្រែបាន។');
+      } else {
+        if (txtBtn) txtBtn.textContent = 'កែប្រែកាលវិភាគ';
+        btnEditTimetable.classList.remove('btn-primary');
+        btnEditTimetable.classList.add('btn-outline');
+        
+        timetableCards.forEach(card => {
+          const elementsToEdit = [
+            card.querySelector('.subject-name'),
+            card.querySelector('.day-tag-badge'),
+            card.querySelector('.time-range'),
+            card.querySelector('.room-pill'),
+            card.querySelector('.instructor-row span')
+          ];
+          
+          elementsToEdit.forEach(el => {
+            if (el) {
+              el.removeAttribute('contenteditable');
+              el.style.backgroundColor = '';
+              el.style.border = '';
+              el.style.padding = '';
+            }
+          });
+        });
+        showToast('រក្សាទុកជោគជ័យ', 'ទិន្នន័យកាលវិភាគត្រូវបានរក្សាទុក។');
+      }
+    });
+  }
+
+  if (btnAddAssignment) {
+    btnAddAssignment.addEventListener('click', () => {
+      showToast('Admin', 'អ្នកអាចបន្ថែមមុខងារនេះជា Modal ដាក់កិច្ចការថ្មីនៅពេលក្រោយបាន។');
+    });
+  }
+
+  if (btnAddAnnouncement) {
+    btnAddAnnouncement.addEventListener('click', () => {
+      showToast('Admin', 'ទម្រង់បញ្ចូលសេចក្តីជូនដំណឹងថ្មីកំពុងរៀបចំ...');
+    });
+  }
+
+  // Editable Gradebook Logic
+  let isEditingGradebook = false;
+  if (btnEditGradebook) {
+    btnEditGradebook.addEventListener('click', () => {
+      const gradebookRows = document.querySelectorAll('#view-gradebook tbody tr');
+      
+      isEditingGradebook = !isEditingGradebook;
+      
+      if (isEditingGradebook) {
+        // Switch to Edit Mode
+        if (txtEditGradebook) txtEditGradebook.textContent = 'រក្សាទុកពិន្ទុ';
+        btnEditGradebook.classList.remove('btn-primary');
+        btnEditGradebook.classList.add('btn-outline');
+        btnEditGradebook.style.borderColor = 'var(--color-green)';
+        btnEditGradebook.style.color = 'var(--color-green)';
+        
+        gradebookRows.forEach(row => {
+          // Columns 3 to 6 are the scores (0-indexed: 3, 4, 5, 6)
+          for (let i = 3; i <= 6; i++) {
+            const cell = row.cells[i];
+            cell.setAttribute('contenteditable', 'true');
+            cell.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+            cell.style.border = '1px dashed var(--border-focus)';
+            cell.style.outline = 'none';
+          }
+        });
+        showToast('របៀបកែប្រែ', 'អ្នកអាចចុចលើពិន្ទុដើម្បីធ្វើការកែប្រែបាន។');
+      } else {
+        // Switch to Save Mode
+        if (txtEditGradebook) txtEditGradebook.textContent = 'បញ្ចូលពិន្ទុ';
+        btnEditGradebook.classList.remove('btn-outline');
+        btnEditGradebook.classList.add('btn-primary');
+        btnEditGradebook.style.borderColor = '';
+        btnEditGradebook.style.color = '';
+        
+        let totalGPA = 0;
+
+        gradebookRows.forEach(row => {
+          let totalScore = 0;
+          for (let i = 3; i <= 6; i++) {
+            const cell = row.cells[i];
+            cell.removeAttribute('contenteditable');
+            cell.style.backgroundColor = '';
+            cell.style.border = '';
+            
+            const val = parseFloat(cell.textContent) || 0;
+            totalScore += val;
+          }
+          
+          // Update Total Score Cell (col 7)
+          const totalCell = row.cells[7].querySelector('strong');
+          if (totalCell) totalCell.textContent = totalScore.toFixed(1).replace('.0', '');
+          
+          // Calculate Grade & Update Grade Cell (col 8)
+          let grade = 'F';
+          let gradeClass = 'grade-a'; // Just reuse some class for F visually or dynamically add
+          let gpaPoint = 0;
+          
+          if (totalScore >= 90) { grade = 'A'; gradeClass = 'grade-a'; gpaPoint = 4.0; }
+          else if (totalScore >= 85) { grade = 'B+'; gradeClass = 'grade-b-plus'; gpaPoint = 3.5; }
+          else if (totalScore >= 80) { grade = 'B'; gradeClass = 'grade-b-plus'; gpaPoint = 3.0; }
+          else if (totalScore >= 70) { grade = 'C'; gradeClass = 'grade-b-plus'; gpaPoint = 2.0; }
+          else if (totalScore >= 60) { grade = 'D'; gradeClass = 'grade-b-plus'; gpaPoint = 1.0; }
+          else { grade = 'F'; gradeClass = 'grade-a'; gpaPoint = 0.0; }
+          
+          totalGPA += gpaPoint;
+          
+          const gradePill = row.cells[8].querySelector('.grade-pill');
+          if (gradePill) {
+            gradePill.textContent = grade;
+            gradePill.className = `grade-pill ${gradeClass}`;
+          }
+          
+          // Update Status Cell (col 9)
+          const statusTag = row.cells[9].querySelector('.status-tag');
+          if (statusTag) {
+            if (grade === 'F') {
+              statusTag.textContent = 'ធ្លាក់';
+              statusTag.className = 'status-tag urgent';
+            } else {
+              statusTag.textContent = 'ជាប់';
+              statusTag.className = 'status-tag passed';
+            }
+          }
+        });
+        
+        // Update overall GPA
+        const gpaValElement = document.querySelector('.gpa-val');
+        const gpaGradeElement = document.querySelector('.gpa-grade');
+        if (gpaValElement && gradebookRows.length > 0) {
+          const finalGPA = totalGPA / gradebookRows.length;
+          gpaValElement.textContent = finalGPA.toFixed(2);
+          
+          let overallGrade = 'F';
+          if (finalGPA >= 3.7) overallGrade = 'A';
+          else if (finalGPA >= 3.0) overallGrade = 'B';
+          else if (finalGPA >= 2.0) overallGrade = 'C';
+          else if (finalGPA >= 1.0) overallGrade = 'D';
+          
+          if (gpaGradeElement) gpaGradeElement.textContent = `និទ្ទេស ${overallGrade}`;
+        }
+        
+        showToast('រក្សាទុកពិន្ទុជោគជ័យ', 'ទិន្នន័យពិន្ទុថ្មីត្រូវបានកត់ត្រាចូលប្រព័ន្ធ។');
+      }
+    });
+  }
+
+  // --- 11. Global Search Filter ---
   const globalSearch = document.getElementById('global-search');
   if (globalSearch) {
     globalSearch.addEventListener('input', (e) => {
@@ -628,5 +1029,122 @@ document.addEventListener('DOMContentLoaded', () => {
         toast.classList.remove('active');
       }, 4000);
     }
+  }
+
+  // --- 12. Admin Global Edit & Delete (Inject Buttons) ---
+  if (isAdmin) {
+    const editableSelectors = [
+      '.timetable-card', 
+      '.course-card', 
+      '.assignment-item', 
+      '.notice-card'
+    ];
+    
+    editableSelectors.forEach(selector => {
+      document.querySelectorAll(selector).forEach(el => {
+        // Ensure relative positioning
+        if (window.getComputedStyle(el).position === 'static') {
+          el.style.position = 'relative';
+        }
+        
+        const actionDiv = document.createElement('div');
+        actionDiv.className = 'admin-item-actions admin-only';
+        actionDiv.innerHTML = `
+          <button class="admin-action-btn edit-btn" title="កែប្រែ (Edit)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+          </button>
+          <button class="admin-action-btn delete-btn" title="លុប (Delete)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          </button>
+        `;
+        
+        // Edit functionality
+        const editBtn = actionDiv.querySelector('.edit-btn');
+        editBtn.addEventListener('click', (e) => {
+          e.stopPropagation(); // prevent card click
+          // Try to find the title element
+          let titleEl = el.querySelector('h3') || el.querySelector('h4') || el.querySelector('.course-name');
+          if (titleEl) {
+            const newTitle = prompt('បញ្ចូលចំណងជើងថ្មី:', titleEl.textContent);
+            if (newTitle !== null && newTitle.trim() !== '') {
+              titleEl.textContent = newTitle.trim();
+              showToast('ជោគជ័យ', 'ទិន្នន័យត្រូវបានកែប្រែ។');
+            }
+          } else {
+            showToast('Admin', 'មិនអាចស្វែងរកចំណងជើងសម្រាប់កែប្រែបានទេ។');
+          }
+        });
+
+        // Delete functionality
+        const deleteBtn = actionDiv.querySelector('.delete-btn');
+        deleteBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (confirm('តើអ្នកពិតជាចង់លុបទិន្នន័យនេះមែនទេ? សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ។')) {
+            el.style.transition = 'all 0.3s ease';
+            el.style.opacity = '0';
+            el.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+              el.remove();
+              showToast('ជោគជ័យ', 'ទិន្នន័យត្រូវបានលុបចេញពីប្រព័ន្ធ។');
+            }, 300);
+          }
+        });
+
+        el.appendChild(actionDiv);
+      });
+    });
+
+    // --- 13. Admin Course Material Upload ---
+    let currentUploadCourse = '';
+    const hiddenCourseUpload = document.createElement('input');
+    hiddenCourseUpload.type = 'file';
+    hiddenCourseUpload.style.display = 'none';
+    document.body.appendChild(hiddenCourseUpload);
+    
+    hiddenCourseUpload.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) {
+        const file = e.target.files[0];
+        if (currentUploadCourse) {
+          const storageKey = `duc-course-files-${currentUploadCourse}`;
+          let files = JSON.parse(localStorage.getItem(storageKey) || '[]');
+          files.push({ name: file.name, type: file.type });
+          localStorage.setItem(storageKey, JSON.stringify(files));
+        }
+        showToast('ជោគជ័យ', 'ឯកសារមេរៀនត្រូវបានបញ្ជូលទៅក្នុងមុខវិជ្ជាដោយជោគជ័យ។');
+        e.target.value = ''; // Reset
+      }
+    });
+
+    document.querySelectorAll('.course-card').forEach(card => {
+      const actionDiv = card.querySelector('.course-card-actions');
+      if (actionDiv) {
+        actionDiv.classList.add('has-admin-btn');
+        
+        let courseName = 'Unknown Course';
+        const viewBtn = card.querySelector('button[onclick^="openCourseDetails"]');
+        if (viewBtn) {
+          const match = viewBtn.getAttribute('onclick').match(/'([^']+)'/);
+          if (match) {
+            courseName = match[1];
+          }
+        }
+        
+        const uploadBtn = document.createElement('button');
+        uploadBtn.className = 'btn btn-outline btn-sm btn-full admin-only';
+        uploadBtn.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          <span>បញ្ជូលឯកសារ</span>
+        `;
+        
+        uploadBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          currentUploadCourse = courseName;
+          hiddenCourseUpload.click();
+        });
+        
+        actionDiv.appendChild(uploadBtn);
+      }
+    });
+
   }
 });

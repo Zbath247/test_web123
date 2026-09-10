@@ -435,6 +435,30 @@ a {
   background-size: cover;
   background-position: center;
   border: 2px solid var(--primary);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.avatar-upload-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.user-avatar:hover .avatar-upload-overlay {
+  opacity: 1;
+}
+
+.avatar-upload-overlay i {
+  width: 16px;
+  height: 16px;
 }
 
 .user-meta {
@@ -1116,6 +1140,10 @@ a {
   margin-top: 8px;
 }
 
+.course-card-actions.has-admin-btn {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
 /* ==========================================================================
    4. Attendance View Styles
    ========================================================================== */
@@ -1606,5 +1634,60 @@ a {
   }
   .course-card-actions {
     grid-template-columns: 1fr;
-  }
 }
+
+/* ==========================================================================
+   Admin Injectable Actions (Edit / Delete)
+   ========================================================================== */
+.admin-item-actions {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 6px;
+  z-index: 20;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* Show actions on parent hover */
+.timetable-card:hover .admin-item-actions,
+.course-card:hover .admin-item-actions,
+.assignment-item:hover .admin-item-actions,
+.notice-card:hover .admin-item-actions {
+  opacity: 1;
+}
+
+.admin-action-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-action-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.admin-action-btn.delete-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.admin-action-btn.edit-btn:hover {
+  background: rgba(56, 189, 248, 0.2);
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
