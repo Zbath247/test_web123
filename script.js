@@ -620,7 +620,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <span>${file.name} <span class="badge text-xs bg-green-500/10 text-green-500 ml-2">ថ្មី (New)</span></span>
             </div>
             <div style="display: flex; gap: 6px;">
-              <button class="btn btn-outline btn-sm" title="មើលជា PDF" onclick="openPdfViewer('${file.name}')"><i data-lucide="eye"></i></button>
+              <button class="btn btn-outline btn-sm" title="មើលឯកសារ" onclick="openPdfViewer('${file.name}', '${courseName}')"><i data-lucide="eye"></i></button>
               <button class="btn btn-outline btn-sm" onclick="showToast('ទាញយក', 'កំពុងទាញយកឯកសារ')"><i data-lucide="download"></i></button>
               ${deleteBtnHTML}
             </div>
@@ -656,7 +656,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.uploadedFilesMemory = window.uploadedFilesMemory || {};
 
-  window.openPdfViewer = function(fileName) {
+  window.openPdfViewer = function(fileName, courseName = null) {
     const modal = document.getElementById('pdf-viewer-modal');
     const titleEl = document.getElementById('pdf-viewer-title');
     const contentEl = document.getElementById('pdf-viewer-content');
@@ -664,10 +664,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (modal && titleEl && contentEl) {
       titleEl.textContent = fileName;
       
-      const file = window.uploadedFilesMemory[fileName];
+      let file = window.uploadedFilesMemory[fileName];
+      if (!file && courseName) {
+        const storageKey = `duc-course-files-${courseName}`;
+        const files = JSON.parse(localStorage.getItem(storageKey) || '[]');
+        file = files.find(f => f.name === fileName);
+      }
       
       if (file) {
-        const url = URL.createObjectURL(file);
+        const url = file.dataUrl || URL.createObjectURL(file);
         const type = file.type || '';
         
         if (type.startsWith('image/')) {
@@ -1108,10 +1113,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentUploadCourse) {
           const storageKey = `duc-course-files-${currentUploadCourse}`;
           let files = JSON.parse(localStorage.getItem(storageKey) || '[]');
-          files.push({ name: file.name, type: file.type });
-          localStorage.setItem(storageKey, JSON.stringify(files));
+          
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            files.push({ name: file.name, type: file.type, dataUrl: event.target.result });
+            try {
+              localStorage.setItem(storageKey, JSON.stringify(files));
+              showToast('ជោគជ័យ', 'ឯកសារមេរៀនត្រូវបានបញ្ជូលទៅក្នុងមុខវិជ្ជាដោយជោគជ័យ។');
+              window.openCourseDetails(currentUploadCourse); // Refresh modal
+            } catch (err) {
+              showToast('បរាជ័យ', 'ឯកសារធំពេកមិនអាចរក្សាទុកបានទេ (LocalStorage limit)។ សូមសាកល្បងឯកសារតូចជាងនេះ។');
+            }
+          };
+          reader.readAsDataURL(file);
         }
-        showToast('ជោគជ័យ', 'ឯកសារមេរៀនត្រូវបានបញ្ជូលទៅក្នុងមុខវិជ្ជាដោយជោគជ័យ។');
         e.target.value = ''; // Reset
       }
     });
