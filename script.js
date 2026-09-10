@@ -406,17 +406,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnExport = document.getElementById('btn-export-csv');
   if (btnExport) {
     btnExport.addEventListener('click', () => {
-      let csvContent = "data:text/csv;charset=utf-8,No,StudentID,KhmerName,LatinName,Gender,DOB,Status\n";
+      let csvContent = "\uFEFFNo,StudentID,KhmerName,LatinName,Gender,DOB,Status\n";
       studentsData.forEach((s, idx) => {
         csvContent += `${idx + 1},${s.id},"${s.name}","${s.latinName}",${s.gender},${s.dob},${s.status}\n`;
       });
-      const encodedUri = encodeURI(csvContent);
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
+      link.setAttribute("href", url);
       link.setAttribute("download", `DUC_Class_Roster_${new Date().toISOString().slice(0,10)}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      URL.revokeObjectURL(url);
       showToast('ទាញយកជោគជ័យ!', 'ឯកសារ CSV បញ្ជីរាយនាមនិស្សិតត្រូវបានទាញយក។');
     });
   }
