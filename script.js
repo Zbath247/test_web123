@@ -406,20 +406,57 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnExport = document.getElementById('btn-export-csv');
   if (btnExport) {
     btnExport.addEventListener('click', () => {
-      let csvContent = "\uFEFFNo,StudentID,KhmerName,LatinName,Gender,DOB,Status\n";
+      let tableHtml = `
+      <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+      <head>
+        <meta charset="utf-8">
+        <style>
+          table { border-collapse: collapse; width: 100%; }
+          th, td { border: 1px solid #dddddd; padding: 6px; text-align: left; }
+          th { background-color: #f1f5f9; font-weight: bold; }
+          .kh { font-family: 'Khmer OS Battambang', 'Khmer OS', sans-serif; }
+        </style>
+      </head>
+      <body>
+        <table>
+          <tr>
+            <th>No</th>
+            <th>StudentID</th>
+            <th>KhmerName</th>
+            <th>LatinName</th>
+            <th>Gender</th>
+            <th>DOB</th>
+            <th>Status</th>
+          </tr>`;
+      
       studentsData.forEach((s, idx) => {
-        csvContent += `${idx + 1},${s.id},"${s.name}","${s.latinName}",${s.gender},${s.dob},${s.status}\n`;
+        tableHtml += `
+          <tr>
+            <td>${idx + 1}</td>
+            <td>${s.id}</td>
+            <td class="kh">${s.name}</td>
+            <td>${s.latinName}</td>
+            <td class="kh">${s.gender}</td>
+            <td>${s.dob}</td>
+            <td>${s.status}</td>
+          </tr>`;
       });
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      
+      tableHtml += `
+        </table>
+      </body>
+      </html>`;
+      
+      const blob = new Blob([tableHtml], { type: 'application/vnd.ms-excel;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.setAttribute("href", url);
-      link.setAttribute("download", `DUC_Class_Roster_${new Date().toISOString().slice(0,10)}.csv`);
+      link.setAttribute("download", `DUC_Class_Roster_${new Date().toISOString().slice(0,10)}.xls`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
-      showToast('ទាញយកជោគជ័យ!', 'ឯកសារ CSV បញ្ជីរាយនាមនិស្សិតត្រូវបានទាញយក។');
+      showToast('ទាញយកជោគជ័យ!', 'ឯកសារ Excel បញ្ជីរាយនាមនិស្សិតត្រូវបានទាញយក។');
     });
   }
 
