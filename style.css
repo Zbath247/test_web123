@@ -310,6 +310,12 @@ a {
   overflow: hidden;
 }
 
+[data-theme="light"] .brand-logo {
+  background: #0f172a;
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+}
+
 .brand-logo-img {
   width: 100%;
   height: 100%;
@@ -328,6 +334,11 @@ a {
   font-size: 0.72rem;
   color: #eab308;
   font-weight: 600;
+}
+
+[data-theme="light"] .brand-sub {
+  color: #b45309; /* Darker amber for readability on white background */
+}
   letter-spacing: 0.02em;
 }
 
