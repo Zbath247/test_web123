@@ -303,11 +303,18 @@ a {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  background: rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(234, 179, 8, 0.35);
-  box-shadow: 0 4px 16px rgba(234, 179, 8, 0.25);
-  padding: 3px;
+  background: linear-gradient(135deg, rgba(234, 179, 8, 0.15), rgba(0, 0, 0, 0.2));
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(234, 179, 8, 0.4);
+  box-shadow: 0 0 20px rgba(234, 179, 8, 0.15), inset 0 0 12px rgba(234, 179, 8, 0.1);
+  padding: 4px;
   overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.brand-logo:hover {
+  box-shadow: 0 0 25px rgba(234, 179, 8, 0.3), inset 0 0 15px rgba(234, 179, 8, 0.2);
+  transform: scale(1.05);
 }
 
 [data-theme="light"] .brand-logo {
