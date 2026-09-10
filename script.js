@@ -465,7 +465,49 @@ document.addEventListener('DOMContentLoaded', () => {
   if (saveAttendanceBtn) {
     saveAttendanceBtn.addEventListener('click', () => {
       localStorage.setItem('duc-attendance-43', JSON.stringify(studentsData));
-      showToast('រក្សាទុកជោគជ័យ!', 'បញ្ជីវត្តមានសម្រាប់និស្សិតទាំង ៤៣ នាក់ ត្រូវបានកត់ត្រាក្នុងប្រព័ន្ធ DUC។');
+      showToast('រក្សាទុកជោគជ័យ!', 'បញ្ជីវត្តមានសម្រាប់និស្សិតត្រូវបានកត់ត្រាក្នុងប្រព័ន្ធ DUC។');
+    });
+  }
+
+  // Add Student Logic
+  const addStudentBtn = document.getElementById('btn-add-student');
+  const addStudentModal = document.getElementById('modal-add-student');
+  const saveNewStudentBtn = document.getElementById('btn-save-new-student');
+
+  if (addStudentBtn) {
+    if (currentSession && currentSession.role === 'admin') {
+      addStudentBtn.style.display = 'inline-flex';
+    }
+    addStudentBtn.addEventListener('click', () => {
+      if (addStudentModal) addStudentModal.style.display = 'flex';
+    });
+  }
+
+  if (saveNewStudentBtn) {
+    saveNewStudentBtn.addEventListener('click', () => {
+      const id = document.getElementById('add-student-id').value;
+      const name = document.getElementById('add-student-khmer').value;
+      const latinName = document.getElementById('add-student-latin').value;
+      const gender = document.getElementById('add-student-gender').value;
+      const dob = document.getElementById('add-student-dob').value;
+
+      if (!id || !name || !latinName || !dob) {
+        showToast('បរាជ័យ', 'សូមបំពេញព័ត៌មានអោយបានគ្រប់គ្រាន់។');
+        return;
+      }
+
+      studentsData.push({ id, name, latinName, gender, dob, status: 'present' });
+      localStorage.setItem('duc-attendance-43', JSON.stringify(studentsData));
+
+      document.getElementById('add-student-id').value = '';
+      document.getElementById('add-student-khmer').value = '';
+      document.getElementById('add-student-latin').value = '';
+      document.getElementById('add-student-dob').value = '';
+
+      addStudentModal.style.display = 'none';
+      renderAttendanceTable();
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      showToast('ជោគជ័យ!', 'និស្សិតថ្មីត្រូវបានបញ្ចូលរួចរាល់។');
     });
   }
 

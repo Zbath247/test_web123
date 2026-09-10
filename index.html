@@ -667,6 +667,10 @@
                 <i data-lucide="rotate-ccw"></i>
                 <span>កំណត់ឡើងវិញ</span>
               </button>
+              <button class="btn btn-primary btn-sm" id="btn-add-student" style="display: none;" title="បញ្ចូលនិស្សិតថ្មី">
+                <i data-lucide="user-plus"></i>
+                <span>បញ្ចូលនិស្សិតថ្មី</span>
+              </button>
               <button class="btn btn-outline btn-sm" id="btn-export-csv" title="ទាញយកជា Excel/CSV">
                 <i data-lucide="download"></i>
                 <span>ទាញយក Excel</span>
@@ -1116,6 +1120,45 @@
            <h4 style="font-weight: 600; font-size: 18px; color: #334155;" id="pdf-viewer-inner-title">Preview Mode</h4>
            <p style="font-size: 14px; color: #64748b; text-align: center; max-width: 80%;">នៅក្នុងប្រព័ន្ធពិតប្រាកដ ទីនេះនឹងជាផ្ទាំងបង្ហាញឯកសារ (PDF Viewer) ផ្ទាល់តែម្តង ដូច្នេះនិស្សិតអាចអានបានដោយមិនបាច់ទាញយក។</p>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Student Modal -->
+  <div id="modal-add-student" class="modal" role="dialog" aria-modal="true" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">បញ្ចូលនិស្សិតថ្មី (Add New Student)</h3>
+        <button class="modal-close-btn" onclick="document.getElementById('modal-add-student').style.display='none'"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group" style="margin-bottom: 15px;">
+          <label style="display:block; margin-bottom: 5px;">អត្តលេខ (Student ID)</label>
+          <input type="text" id="add-student-id" class="form-control" placeholder="ឧ. DUC2024-XXXX" required style="width: 100%; padding: 8px;">
+        </div>
+        <div class="form-group" style="margin-bottom: 15px;">
+          <label style="display:block; margin-bottom: 5px;">ឈ្មោះខ្មែរ (Khmer Name)</label>
+          <input type="text" id="add-student-khmer" class="form-control" placeholder="ឧ. នាមត្រកូល នាមខ្លួន" required style="width: 100%; padding: 8px;">
+        </div>
+        <div class="form-group" style="margin-bottom: 15px;">
+          <label style="display:block; margin-bottom: 5px;">ឈ្មោះឡាតាំង (Latin Name)</label>
+          <input type="text" id="add-student-latin" class="form-control" placeholder="ឧ. NAMETRAKOL NAMKHLOUN" required style="width: 100%; padding: 8px;">
+        </div>
+        <div class="form-group" style="margin-bottom: 15px;">
+          <label style="display:block; margin-bottom: 5px;">ភេទ (Gender)</label>
+          <select id="add-student-gender" class="form-control" style="width: 100%; padding: 8px;">
+            <option value="ប្រុស">ប្រុស (Male)</option>
+            <option value="ស្រី">ស្រី (Female)</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom: 15px;">
+          <label style="display:block; margin-bottom: 5px;">ថ្ងៃខែឆ្នាំកំណើត (DOB)</label>
+          <input type="text" id="add-student-dob" class="form-control" placeholder="ឧ. 01/01/2000" style="width: 100%; padding: 8px;">
+        </div>
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+        <button class="btn btn-outline" onclick="document.getElementById('modal-add-student').style.display='none'">បោះបង់ (Cancel)</button>
+        <button class="btn btn-primary" id="btn-save-new-student">រក្សាទុក (Save)</button>
       </div>
     </div>
   </div>
