@@ -689,9 +689,10 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         // Mock static files or lost session files
         let publicUrl = '';
-        if (fileName.includes('Chapter 1')) {
+        const lowerName = fileName.toLowerCase();
+        if (lowerName.includes('chapter 1') || lowerName.endsWith('.pdf')) {
           publicUrl = 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
-        } else if (fileName.includes('Chapter 2')) {
+        } else if (lowerName.includes('chapter 2') || lowerName.endsWith('.pptx') || lowerName.endsWith('.ppt') || lowerName.endsWith('.docx')) {
           publicUrl = 'https://scholar.harvard.edu/files/torman_personal/files/samplepptx.pptx';
         }
 
